@@ -11,6 +11,6 @@ const sendWelcomeEmail = async (email, name) => {
   await transporter.sendMail(mailOptions);
 };
 
-/* teste /*
+/* teste */
 
 export { sendWelcomeEmail }
