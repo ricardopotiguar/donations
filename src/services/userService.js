@@ -42,7 +42,7 @@ async function createUser(requestBody){
             data: {
                 email: requestBody.email,
                 name: requestBody.name,
-                age: requestBody.age,
+                age: Number(requestBody.age),
                 type: requestBody.type
             }
         })
@@ -58,12 +58,12 @@ async function updateUser(request){
     try {
         await prisma.user.update({
             where : {
-                id: request.params.id
+                id: Number(request.params.id)
             },
             data: {
                 email: request.body.email,
                 name: request.body.name,
-                age: request.body.age,
+                age: Number(request.body.age),
                 type: request.body.type
             }
         })
@@ -77,7 +77,7 @@ async function deleteUserService(requestParams){
     try {
         await prisma.user.delete({
             where : {
-                id: requestParams.id
+                id: Number(requestParams.id)
             }
         })
         return
