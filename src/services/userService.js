@@ -3,7 +3,7 @@ const prisma = new PrismaClient()
 
 import {sendWelcomeEmail} from "./emailService.js"
 
-async function findUserByEmail(userEmail){
+async function findUserByEmailService(userEmail){
     try{
         const user = await prisma.user.findUnique({
             where: { email: userEmail}
@@ -15,7 +15,7 @@ async function findUserByEmail(userEmail){
 
 }
 
-async function findAll(request){
+async function getAllUserService(request){
     try{
         let users = []
         if (request.query){
@@ -50,7 +50,7 @@ async function findAll(request){
     }
 }
 
-async function createUser(requestBody){
+async function createUserService(requestBody){
     try {
         await prisma.user.create({
             data: {
@@ -68,7 +68,7 @@ async function createUser(requestBody){
 }
 
 
-async function updateUser(request){
+async function updateUserService(request){
     try {
         await prisma.user.update({
             where : {
@@ -111,4 +111,4 @@ async function findUserByIdService(id){
     }
 }
 
-export {findUserByEmail, createUser, findAll, updateUser, deleteUserService, findUserByIdService}
+export {findUserByEmailService, createUserService, getAllUserService, updateUserService, deleteUserService, findUserByIdService}

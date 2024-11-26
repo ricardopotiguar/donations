@@ -1,9 +1,9 @@
-import { createUser, findAll, updateUser, deleteUserService } from '../services/userService.js'
+import { createUserService, getAllUserService, updateUserService, deleteUserService } from '../services/userService.js'
 
 async function getAll(request, response){
     try{
         let users = []
-        users = await findAll(request)
+        users = await getAllUserService(request)
         return response.status(200).json(users)
     } catch (error) {
         return response.status(500).json({ message: 'An error occurred while finding the user.', datail: error.message });
@@ -12,7 +12,7 @@ async function getAll(request, response){
 
 async function create(request, response){
     try {
-        createUser(request.body)
+        createUserService(request.body)
         return response.status(201).send(request.body)
     } catch (error) {
         return response.status(500).json({ message: 'An error occurred while creating the user.', datail: error.message });
@@ -21,7 +21,7 @@ async function create(request, response){
 
 async function update(request, response){
     try {
-        await updateUser(request)
+        await updateUserService(request)
         return response.status(200).send(request.body)
     } catch (error) {
         return response.status(500).json({ message: 'An error occurred while updating the user.', datail: error.message });
