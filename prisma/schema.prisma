@@ -29,6 +29,7 @@ model UserNeeds {
   quantity    Int
   userId      Int
   user        User    @relation(fields: [userId], references: [id]) // Chave estrangeira para User
+  state       String
 
   @@index([userId]) // Índice no campo userId para melhorar o desempenho
 }

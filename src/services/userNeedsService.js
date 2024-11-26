@@ -9,8 +9,9 @@ async function getAllUserNeedsService(request){
         let userNeeds = []
         if (request.query){
             const filters = {};
-            const { title, quantity, userId } = request.query
+            const { title, quantity, userId, state } = request.query
             filters.title = title
+            filters.state = state
             if (quantity) {
                 const quantityInt = parseInt(quantity, 10)
                 if (isNaN(quantityInt)) {
@@ -44,7 +45,8 @@ async function createUserNeedsService(requestBody){
                 userId: Number(requestBody.userId),
                 title: requestBody.title,
                 description: requestBody.description,
-                quantity: Number(requestBody.quantity)
+                quantity: Number(requestBody.quantity),
+                state: 'pending'
             }
         })
         const user = await findUserByIdService(requestBody.userId)
@@ -53,6 +55,11 @@ async function createUserNeedsService(requestBody){
     } catch (error) {
         throw new Error(`Failed to create user: ${error.message}`);
     }
+
+    /* state:
+            pending
+            completed
+            partial */
 }
 
 async function updateUserNeedsService(request){
@@ -65,7 +72,8 @@ async function updateUserNeedsService(request){
                 userId: Number(request.body.userId),
                 title: request.body.title,
                 description: request.body.description,
-                quantity: Number(request.body.quantity)
+                quantity: Number(request.body.quantity),
+                state: request.body.state
             }
         })
         return
@@ -88,3 +96,4 @@ async function deleteUserNeedsService(requestParams){
 }
 
 export { createUserNeedsService, getAllUserNeedsService, updateUserNeedsService, deleteUserNeedsService }
+
