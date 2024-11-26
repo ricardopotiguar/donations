@@ -22,3 +22,17 @@ sudo systemctl start mysql
 ```bash
 node --watch "./src/server.js"
 ```
+
+ ## Realizando migração de banco de dados ##
+
+ ### Remover Migrações e Resetar Banco de Dados Se você quiser começar "do zero": ###
+
+```bash
+npx prisma migrate reset
+```
+
+ ### Criar uma Nova Migração Após ajustar o modelo no schema.prisma, crie uma nova migração: ###
+
+```bash
+npx prisma migrate dev --name alter_field_type
+```

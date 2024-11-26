@@ -14,9 +14,23 @@ datasource db {
 }
 
 model User {
-  id      Int    @id @default(autoincrement())
-  email   String  @unique
-  name    String
-  age     Int
-  type    String
+  id          Int    @id @default(autoincrement())
+  email       String  @unique
+  name        String
+  age         Int
+  type        String
+  userNeeds   UserNeeds[]  // Relacionamento com UserNeeds
 }
+
+model UserNeeds {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+  quantity    Int
+  userId      Int
+  user        User    @relation(fields: [userId], references: [id]) // Chave estrangeira para User
+
+  @@index([userId]) // Índice no campo userId para melhorar o desempenho
+}
+
+
