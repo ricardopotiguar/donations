@@ -1,6 +1,6 @@
 import { createUserService, getAllUserService, updateUserService, deleteUserService } from '../services/userService.js'
 
-async function getAll(request, response){
+async function getAllUserController(request, response){
     try{
         let users = []
         users = await getAllUserService(request)
@@ -10,7 +10,7 @@ async function getAll(request, response){
     }
 }
 
-async function create(request, response){
+async function createUserController(request, response){
     try {
         createUserService(request.body)
         return response.status(201).send(request.body)
@@ -19,7 +19,7 @@ async function create(request, response){
     }
 }
 
-async function update(request, response){
+async function updateUserController(request, response){
     try {
         await updateUserService(request)
         return response.status(200).send(request.body)
@@ -29,9 +29,9 @@ async function update(request, response){
 
 }
 
-async function deleteUser(request, response){
+async function deleteUserController(request, response){
     await deleteUserService (request.params)
     return response.status(200).send({message:"Usuário deletado com sucesso!"})
 }
 
-export { getAll,create, update, deleteUser}
+export { getAllUserController,createUserController, updateUserController, deleteUserController}
