@@ -1,9 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-import {sendEmailUserNeeds} from "./emailService.js"
-import {findUserByIdService} from "./userService.js"
-
+/*
 async function getAllUserNeedsService(request){
     try {
         let userNeeds = []
@@ -37,31 +35,28 @@ async function getAllUserNeedsService(request){
         throw new Error(`Failed to find user: ${error.message}`);
     }
 }
+*/
 
-async function createUserNeedsService(requestBody){
+async function createDonationService(request){
     try {
-        await prisma.UserNeeds.create({
+        await prisma.Donation.create({
             data: {
-                userId: Number(requestBody.userId),
-                title: requestBody.title,
-                description: requestBody.description,
-                quantity: Number(requestBody.quantity),
-                state: 'pending',
+                donorId: Number(request.body.donorId),
+                userNeedsId: Number(request.body.userNeedsId),
+                quantity: Number(request.body.quantity),
                 updatedAt: new Date()
             }
         })
-        const user = await findUserByIdService(requestBody.userId)
-        await sendEmailUserNeeds (user.email, user.name, requestBody)
-        return requestBody
+        return request
+/*         const user = await findUserByIdService(requestBody.userId)
+        await sendEmailUserNeeds (user.email, user.name, requestBody) */
     } catch (error) {
-        throw new Error(`Failed to create user: ${error.message}`);
+        throw new Error(`Failed to create donation: ${error.message}`);
     }
-
-    /* state:
-            pending
-            completed
-            partial */
 }
+
+/*
+
 
 async function updateUserNeedsService(request){
     try {
@@ -74,8 +69,7 @@ async function updateUserNeedsService(request){
                 title: request.body.title,
                 description: request.body.description,
                 quantity: Number(request.body.quantity),
-                state: request.body.state,
-                updatedAt: new Date()
+                state: request.body.state
             }
         })
         return
@@ -97,16 +91,8 @@ async function deleteUserNeedsService(requestParams){
     }
 }
 
-async function findUserNeedsByIdService(id){
-    try{
-        const user = await prisma.userNeeds.findUnique({
-            where: { id: id}
-        })  
-        return user
-    } catch (error){
-        throw new Error(`Failed to find user needs by id: ${error.message}`);
-    }
-}
+export { createUserNeedsService, getAllUserNeedsService, updateUserNeedsService, deleteUserNeedsService }
 
-export { createUserNeedsService, getAllUserNeedsService, updateUserNeedsService, deleteUserNeedsService, findUserNeedsByIdService }
+ */
 
+export {createDonationService}

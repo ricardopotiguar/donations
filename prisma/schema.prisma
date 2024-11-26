@@ -20,6 +20,10 @@ model User {
   age         Int
   type        String
   userNeeds   UserNeeds[]  // Relacionamento com UserNeeds
+  donations   Donation[]   // Relacionamento com Donation (doações feitas pelo usuário)
+  createdAt   DateTime     @default(now()) // Data de criação da doação
+  updatedAt   DateTime
+
 }
 
 model UserNeeds {
@@ -27,11 +31,28 @@ model UserNeeds {
   title       String
   description String
   quantity    Int
-  userId      Int
+  userId      Int     // ID do usuário que possui a necessidade
   user        User    @relation(fields: [userId], references: [id]) // Chave estrangeira para User
   state       String
+  donations   Donation[]   // Relacionamento com Donation (doações recebidas)
+  createdAt   DateTime     @default(now()) // Data de criação da doação
+  updatedAt   DateTime
 
   @@index([userId]) // Índice no campo userId para melhorar o desempenho
+}
+
+model Donation {
+  id          Int          @id @default(autoincrement())
+  donorId     Int          // ID do usuário que fez a doação
+  donor       User         @relation(fields: [donorId], references: [id]) // Relacionamento com User (doador)
+  userNeedsId Int          // ID da necessidade associada à doação
+  userNeeds   UserNeeds    @relation(fields: [userNeedsId], references: [id]) // Relacionamento com UserNeeds
+  createdAt   DateTime     @default(now()) // Data de criação da doação
+  quantity    Int
+  updatedAt   DateTime
+
+  @@index([donorId])       // Índice para melhorar consultas por doador
+  @@index([userNeedsId])   // Índice para melhorar consultas por UserNeeds
 }
 
 

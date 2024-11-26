@@ -1,4 +1,5 @@
-import { findUserByEmailService } from "../services/userService.js";
+import { findUserByEmailService } from "../services/userService.js"
+import { findUserNeedsByIdService } from "../services/userNeedsService.js"
 
 async function userValidation(request, response, next){
     const { email } = request.body;
@@ -13,4 +14,16 @@ async function userValidation(request, response, next){
     next()
 }
 
-export {userValidation}
+async function userNeedsValidation(request, response, next){
+    try {
+        const userNeeds = await findUserNeedsByIdService(request.body.userNeedsId)
+        if (!userNeeds){
+            return response.status(400).json({ message: `UserNeeds ${request.body.userNeedsId} not exists` });
+        }
+    } catch (error) {
+        return response.status(500).json({ message: 'An error occurred while finding the user needs.', datails: error.message });       
+    }
+    next()
+}
+
+export {userValidation, userNeedsValidation}
