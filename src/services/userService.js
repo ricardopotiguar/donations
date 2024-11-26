@@ -19,17 +19,31 @@ async function findAll(request){
     try{
         let users = []
         if (request.query){
-            users = await prisma.user.findMany({
-                where:{
-                    name: request.query.name,
-                    email: request.query.email,
-                    age : request.query.age,
-                    type : request.query.type
+            const filters = {};
+            const { name, email, age, type, id } = request.query
+            filters.name = name
+            filters.email = email
+            filters.type = type
+            if (age) {
+                const ageInt = parseInt(age, 10)
+                if (isNaN(ageInt)) {
+                    throw new Error('O parâmetro age deve ser um número inteiro.' )
                 }
+                filters.age = ageInt
+            }
+            if (id) {
+                const IdInt = parseInt(id, 10)
+                if (isNaN(IdInt)) {
+                    throw new Error('O parâmetro id deve ser um número inteiro.' )
+                }
+                filters.id = IdInt
+            }
+            users = await prisma.user.findMany({
+                where: filters,
             })
-        }else {
+        } else {
             users = await prisma.user.findMany()
-        }
+        } 
         return users
     } catch (error) {
         throw new Error(`Failed to find user: ${error.message}`);
@@ -84,7 +98,17 @@ async function deleteUserService(requestParams){
     } catch (error) {
         throw new Error(`Failed to delete user: ${error.message}`);
     }
-
 }
 
-export {findUserByEmail, createUser, findAll, updateUser, deleteUserService}
+async function findUserByIdService(id){
+    try{
+        const user = await prisma.user.findUnique({
+            where: { id: id}
+        })  
+        return user
+    } catch (error){
+        throw new Error(`Failed to find user by id: ${error.message}`);
+    }
+}
+
+export {findUserByEmail, createUser, findAll, updateUser, deleteUserService, findUserByIdService}

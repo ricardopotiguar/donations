@@ -1,19 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-import {sendWelcomeEmail} from "./emailService.js"
-
-/* async function findUserByEmail(userEmail){
-    try{
-        const user = await prisma.user.findUnique({
-            where: { email: userEmail}
-        })  
-        return user
-    } catch (error){
-        throw new Error(`Failed to find user email: ${error.message}`);
-    }
-
-} */
+import {sendEmailUserNeeds} from "./emailService.js"
+import {findUserByIdService} from "./userService.js"
 
 async function getAllUserNeedsService(request){
     try {
@@ -58,13 +47,13 @@ async function createUserNeedsService(requestBody){
                 quantity: Number(requestBody.quantity)
             }
         })
-        /* await sendWelcomeEmail(requestBody.email, requestBody.name); */
+        const user = await findUserByIdService(requestBody.userId)
+        await sendEmailUserNeeds (user.email, user.name, requestBody)
         return requestBody
     } catch (error) {
         throw new Error(`Failed to create user: ${error.message}`);
     }
 }
-
 
 async function updateUserNeedsService(request){
     try {

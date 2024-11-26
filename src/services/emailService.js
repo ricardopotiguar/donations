@@ -1,4 +1,4 @@
-import transporter from "../utils/nodemailer.js";
+import transporter from "../utils/nodemailer.js"
 
 async function sendWelcomeEmail (email, name){
   const mailOptions = {
@@ -12,7 +12,23 @@ async function sendWelcomeEmail (email, name){
   } catch (error) {
       throw new Error(`Failed to send email for new user: ${error.message}`);
   }
+}
 
-};
+async function sendEmailUserNeeds (email, name, userNeed){
+  const mailOptions = {
+    from: 'nao-reponda-ricardopotiguar@gmail.com',
+    to: email,
+    subject: 'Necessidade criada para você',
+    text: `Oi ${name}, a necessidade abaixo foi criada para você: \n
+    Título: ${userNeed.title} \n
+    Descrição: ${userNeed.description} \n
+    Quantidade: ${userNeed.quantity} \n`
+  }
+  try {
+      await transporter.sendMail(mailOptions);
+  } catch (error) {
+      throw new Error(`Failed to send email for new user: ${error.message}`);
+  }
+}
 
-export { sendWelcomeEmail }
+export { sendWelcomeEmail, sendEmailUserNeeds }
