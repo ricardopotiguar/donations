@@ -12,7 +12,7 @@ async function getAllUserController(request, response){
 
 async function createUserController(request, response){
     try {
-        createUserService(request.body)
+        await createUserService(request.body)
         return response.status(201).send(request.body)
     } catch (error) {
         return response.status(500).json({ message: 'An error occurred while creating the user.', datail: error.message });

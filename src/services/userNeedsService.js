@@ -54,7 +54,7 @@ async function createUserNeedsService(requestBody){
         await sendEmailUserNeeds (user.email, user.name, requestBody)
         return requestBody
     } catch (error) {
-        throw new Error(`Failed to create user: ${error.message}`);
+        throw new Error(`Failed to create userNeeds: ${error.message}`);
     }
 
     /* state:

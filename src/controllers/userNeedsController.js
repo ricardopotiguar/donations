@@ -13,10 +13,10 @@ async function getAllUserNeedsController(request, response){
 
 async function createUserNeedsController(request, response){
     try {
-        createUserNeedsService(request.body)
+        await createUserNeedsService(request.body)
         return response.status(201).send(request.body)
     } catch (error) {
-        return response.status(500).json({ message: 'An error occurred while creating the user needs.', datail: error.message });
+        return response.status(500).json({ message: 'An error occurred while creating the userNeeds.', datail: error.message });
     }
 }
 

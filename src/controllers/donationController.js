@@ -14,7 +14,7 @@ async function getAllDonationController(request, response){
 
 async function createDonationController(request, response){
     try {
-        createDonationService(request, response)
+        await createDonationService(request, response)
         return response.status(201).send(request.body)
     } catch (error) {
         return response.status(500).json({ message: 'An error occurred while creating donation.', datail: error.message });

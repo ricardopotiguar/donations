@@ -1,6 +1,10 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
+import {sendEmailCreateDonation} from "./emailService.js"
+import {findUserByIdService} from "./userService.js"
+import { findUserNeedsByIdService } from './userNeedsService.js'
+
 async function getAllDonationService(request){
     try {
         let donation = []
@@ -60,9 +64,11 @@ async function createDonationService(request){
                 state: "scheduled"
             }
         })
-        return request
-/*         const user = await findUserByIdService(requestBody.userId)
-        await sendEmailUserNeeds (user.email, user.name, requestBody) */
+        const donorUser = await findUserByIdService(request.body.donorId)
+        const UserNeeds = await findUserNeedsByIdService(request.body.userNeedsId)
+        const needUser = await findUserByIdService(UserNeeds.userId)
+        await sendEmailCreateDonation (needUser, donorUser, UserNeeds, request.body.quantity)
+        return request 
     } catch (error) {
         throw new Error(`Failed to create the donation: ${error.message}`);
     }
