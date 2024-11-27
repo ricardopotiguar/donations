@@ -50,6 +50,7 @@ model Donation {
   createdAt   DateTime     @default(now()) // Data de criação da doação
   quantity    Int
   updatedAt   DateTime
+  state       String
 
   @@index([donorId])       // Índice para melhorar consultas por doador
   @@index([userNeedsId])   // Índice para melhorar consultas por UserNeeds

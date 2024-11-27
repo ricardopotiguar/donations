@@ -1,15 +1,13 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-/*
-async function getAllUserNeedsService(request){
+async function getAllDonationService(request){
     try {
-        let userNeeds = []
+        let donation = []
         if (request.query){
             const filters = {};
-            const { title, quantity, userId, state } = request.query
-            filters.title = title
-            filters.state = state
+            filters.state = request.query.state
+            const { id, donorId, userNeedsId, quantity } = request.query
             if (quantity) {
                 const quantityInt = parseInt(quantity, 10)
                 if (isNaN(quantityInt)) {
@@ -17,25 +15,39 @@ async function getAllUserNeedsService(request){
                 }
                 filters.quantity = quantityInt
             }
-            if (userId) {
-                const userIdInt = parseInt(userId, 10)
-                if (isNaN(userIdInt)) {
+            if (id) {
+                const IdInt = parseInt(id, 10)
+                if (isNaN(IdInt)) {
                     throw new Error('O parâmetro quantity deve ser um número inteiro.' )
                 }
-                filters.userId = userIdInt
+                filters.id = IdInt
             }
-            userNeeds = await prisma.userNeeds.findMany({
+            if (donorId) {
+                const donorIdInt = parseInt(donorId, 10)
+                if (isNaN(donorIdInt)) {
+                    throw new Error('O parâmetro quantity deve ser um número inteiro.' )
+                }
+                filters.donorId = donorIdInt
+            }
+            if (userNeedsId) {
+                const userNeedsIdInt = parseInt(userNeedsId, 10)
+                if (isNaN(userNeedsIdInt)) {
+                    throw new Error('O parâmetro quantity deve ser um número inteiro.' )
+                }
+                filters.userNeedsId = userNeedsIdInt
+            }
+            donation = await prisma.Donation.findMany({
                 where: filters,
             })
         } else { 
-            userNeeds = await prisma.userNeeds.findMany()
+            donation = await prisma.Donation.findMany()
         } 
-        return userNeeds
+        return donation
     } catch (error) {
-        throw new Error(`Failed to find user: ${error.message}`);
+        throw new Error(`Failed to find the Donation: ${error.message}`);
     }
 }
-*/
+
 
 async function createDonationService(request){
     try {
@@ -44,55 +56,56 @@ async function createDonationService(request){
                 donorId: Number(request.body.donorId),
                 userNeedsId: Number(request.body.userNeedsId),
                 quantity: Number(request.body.quantity),
-                updatedAt: new Date()
+                updatedAt: new Date(),
+                state: "scheduled"
             }
         })
         return request
 /*         const user = await findUserByIdService(requestBody.userId)
         await sendEmailUserNeeds (user.email, user.name, requestBody) */
     } catch (error) {
-        throw new Error(`Failed to create donation: ${error.message}`);
+        throw new Error(`Failed to create the donation: ${error.message}`);
     }
+
+    /* state:
+            scheduled
+            completed
+     */
+
 }
 
-/*
 
-
-async function updateUserNeedsService(request){
+async function updateDonationService(request){
     try {
-        await prisma.userNeeds.update({
+        await prisma.Donation.update({
             where : {
                 id: Number(request.params.id)
             },
             data: {
-                userId: Number(request.body.userId),
-                title: request.body.title,
-                description: request.body.description,
+                donorId: Number(request.body.donorId),
+                userNeedsId: Number(request.body.userNeedsId),
                 quantity: Number(request.body.quantity),
-                state: request.body.state
+                state: request.body.state,
+                updatedAt: new Date(),
             }
         })
         return
     } catch (error) {
-        throw new Error(`Failed to update user: ${error.message}`);
+        throw new Error(`Failed to update the Donation: ${error.message}`);
     }
 }
 
-async function deleteUserNeedsService(requestParams){
+async function deleteDonationService(requestParams){
     try {
-        await prisma.userNeeds.delete({
+        await prisma.Donation.delete({
             where : {
                 id: Number(requestParams.id)
             }
         })
         return
     } catch (error) {
-        throw new Error(`Failed to delete user: ${error.message}`);
+        throw new Error(`Failed to delete the donation: ${error.message}`);
     }
 }
 
-export { createUserNeedsService, getAllUserNeedsService, updateUserNeedsService, deleteUserNeedsService }
-
- */
-
-export {createDonationService}
+export {createDonationService, getAllDonationService, updateDonationService, deleteDonationService}

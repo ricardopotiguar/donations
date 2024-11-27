@@ -20,10 +20,13 @@ async function userNeedsValidation(request, response, next){
         if (!userNeeds){
             return response.status(400).json({ message: `UserNeeds ${request.body.userNeedsId} not exists` });
         }
+        if (userNeeds.state === 'completed'){
+            return response.status(400).json({ message: `It is not possible to make a donation for a userNeeds with a completed state` });
+        }
     } catch (error) {
         return response.status(500).json({ message: 'An error occurred while finding the user needs.', datails: error.message });       
     }
     next()
 }
 
-export {userValidation, userNeedsValidation}
+export {userValidation, userNeedsValidation, }

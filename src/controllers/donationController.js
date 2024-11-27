@@ -1,16 +1,16 @@
-import { createDonationService } from '../services/donationService.js'
-/*
+import { createDonationService, getAllDonationService, updateDonationService, deleteDonationService  } from '../services/donationService.js'
 
-async function getAllUserNeedsController(request, response){
+
+async function getAllDonationController(request, response){
     try{
         let usersNeeds = []
-        usersNeeds = await getAllUserNeedsService(request)
+        usersNeeds = await getAllDonationService(request)
         return response.status(200).json(usersNeeds)
     } catch (error) {
-        return response.status(500).json({ message: 'An error occurred while finding the user.', datail: error.message });
+        return response.status(500).json({ message: 'An error occurred while finding the donation.', datail: error.message });
     }
 }
-*/
+
 
 async function createDonationController(request, response){
     try {
@@ -21,26 +21,24 @@ async function createDonationController(request, response){
     }
 }
 
-/*
-async function updateUserNeedsController(request, response){
+
+async function updateDonationController(request, response){
     try {
-        await updateUserNeedsService(request)
+        await updateDonationService(request)
         return response.status(200).send(request.body)
     } catch (error) {
-        return response.status(500).json({ message: 'An error occurred while updating the user.', datail: error.message });
+        return response.status(500).json({ message: 'An error occurred while updating the donation.', datail: error.message });
     }
 
 }
 
-async function deleteUserNeedsController(request, response){
+async function deleteDonationController(request, response){
     try {
-        await deleteUserNeedsService (request.params)
-        return response.status(200).send({message:"Necessidades do usuário excluídas com sucesso!"})
+        await deleteDonationService (request.params)
+        return response.status(200).send({message:"Doação excluída com sucesso!"})
     } catch (error) {
         return response.status(500).json({ message: 'An error occurred while deleting the user needs.', datail: error.message });
     }
 }
 
-export { createUserNeedsController, getAllUserNeedsController, updateUserNeedsController, deleteUserNeedsController } */
-
-export { createDonationController }
+export { createDonationController, getAllDonationController, updateDonationController, deleteDonationController}
