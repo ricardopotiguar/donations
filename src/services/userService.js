@@ -58,7 +58,9 @@ async function createUserService(requestBody){
                 name: requestBody.name,
                 age: Number(requestBody.age),
                 type: requestBody.type,
-                updatedAt: new Date()
+                updatedAt: new Date(),
+                phone: requestBody.phone,
+                password: requestBody.password
             }
         })
         await sendWelcomeEmail(requestBody.email, requestBody.name);
@@ -80,7 +82,8 @@ async function updateUserService(request){
                 name: request.body.name,
                 age: Number(request.body.age),
                 type: request.body.type,
-                updatedAt: new Date()
+                updatedAt: new Date(),
+                phone: request.body.phone
             }
         })
         return

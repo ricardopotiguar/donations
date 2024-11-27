@@ -23,7 +23,8 @@ model User {
   donations   Donation[]   // Relacionamento com Donation (doações feitas pelo usuário)
   createdAt   DateTime     @default(now()) // Data de criação da doação
   updatedAt   DateTime
-
+  phone       String
+  password    String
 }
 
 model UserNeeds {
