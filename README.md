@@ -2,6 +2,16 @@
 
  É uma API RESTful desenvolvida com Node.js, Express e Prisma, projetada para gerenciar um sistema de doação, doares e pessoas ou instituições que possuem necessidade, o objetivo é conectar pessoas que precisam de algo com pessoas disposta a doar algo.
 
+## Executando comando para criação das dependencias mapeadas pelo vite (fazer 1 vez) ##
+
+ ```bash
+npm install
+```
+## Executando comando para instalação do CORS, para liberar acesso do frontend ao backend (fazer 1 vez) ##
+
+ ```bash
+npm install cors
+```
 
  ## Ativando o ambiente local ##
 
