@@ -13,6 +13,13 @@ npm install
 npm install cors
 ```
 
+## Executando comando para instalação do bcrypt, jsonwebtoken e express-validator utilizados para processo de autenticação (fazer 1 vez) ##
+
+ ```bash
+npm install bcrypt jsonwebtoken express-validator
+```
+
+
  ## Ativando o ambiente local ##
 
  ### Verificar se o banco de dados (Mysql) está Ativando ###

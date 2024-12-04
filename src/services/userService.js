@@ -1,24 +1,25 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-import {sendWelcomeEmail} from "./emailService.js"
+import { sendWelcomeEmail } from "./emailService.js"
+import bcrypt from 'bcrypt'
 
-async function findUserByEmailService(userEmail){
-    try{
+async function findUserByEmailService(userEmail) {
+    try {
         const user = await prisma.user.findUnique({
-            where: { email: userEmail}
-        })  
+            where: { email: userEmail }
+        })
         return user
-    } catch (error){
+    } catch (error) {
         throw new Error(`Failed to find user email: ${error.message}`);
     }
 
 }
 
-async function getAllUserService(request){
-    try{
+async function getAllUserService(request) {
+    try {
         let users = []
-        if (request.query){
+        if (request.query) {
             const filters = {};
             const { name, email, age, type, id } = request.query
             filters.name = name
@@ -27,14 +28,14 @@ async function getAllUserService(request){
             if (age) {
                 const ageInt = parseInt(age, 10)
                 if (isNaN(ageInt)) {
-                    throw new Error('O parâmetro age deve ser um número inteiro.' )
+                    throw new Error('O parâmetro age deve ser um número inteiro.')
                 }
                 filters.age = ageInt
             }
             if (id) {
                 const IdInt = parseInt(id, 10)
                 if (isNaN(IdInt)) {
-                    throw new Error('O parâmetro id deve ser um número inteiro.' )
+                    throw new Error('O parâmetro id deve ser um número inteiro.')
                 }
                 filters.id = IdInt
             }
@@ -43,15 +44,17 @@ async function getAllUserService(request){
             })
         } else {
             users = await prisma.user.findMany()
-        } 
+        }
         return users
     } catch (error) {
         throw new Error(`Failed to find user: ${error.message}`);
     }
 }
 
-async function createUserService(requestBody){
+async function createUserService(requestBody) {
     try {
+        // Criptografar a senha
+        const hashedPassword = await bcrypt.hash(requestBody.password, 10); // 10 é o número de "salt rounds"
         await prisma.user.create({
             data: {
                 email: requestBody.email,
@@ -60,7 +63,7 @@ async function createUserService(requestBody){
                 type: requestBody.type,
                 updatedAt: new Date(),
                 phone: requestBody.phone,
-                password: requestBody.password
+                password: hashedPassword
             }
         })
         await sendWelcomeEmail(requestBody.email, requestBody.name);
@@ -71,10 +74,10 @@ async function createUserService(requestBody){
 }
 
 
-async function updateUserService(request){
+async function updateUserService(request) {
     try {
         await prisma.user.update({
-            where : {
+            where: {
                 id: Number(request.params.id)
             },
             data: {
@@ -92,10 +95,10 @@ async function updateUserService(request){
     }
 }
 
-async function deleteUserService(requestParams){
+async function deleteUserService(requestParams) {
     try {
         await prisma.user.delete({
-            where : {
+            where: {
                 id: Number(requestParams.id)
             }
         })
@@ -105,15 +108,15 @@ async function deleteUserService(requestParams){
     }
 }
 
-async function findUserByIdService(id){
-    try{
+async function findUserByIdService(id) {
+    try {
         const user = await prisma.user.findUnique({
-            where: { id: id}
-        })  
+            where: { id: id }
+        })
         return user
-    } catch (error){
+    } catch (error) {
         throw new Error(`Failed to find user by id: ${error.message}`);
     }
 }
 
-export {findUserByEmailService, createUserService, getAllUserService, updateUserService, deleteUserService, findUserByIdService}
+export { findUserByEmailService, createUserService, getAllUserService, updateUserService, deleteUserService, findUserByIdService }
