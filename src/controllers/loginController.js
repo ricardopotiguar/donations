@@ -8,7 +8,6 @@ const prisma = new PrismaClient()
 
 // Controller de login
 async function loginController(request, response) {
-    console.log('entrei na loginController')
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
         return response.status(400).json({ errors: errors.array() });
