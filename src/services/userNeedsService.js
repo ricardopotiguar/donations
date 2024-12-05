@@ -1,44 +1,65 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-import {sendEmailUserNeeds} from "./emailService.js"
-import {findUserByIdService} from "./userService.js"
+import { sendEmailUserNeeds } from "./emailService.js"
+import { findUserByIdService } from "./userService.js"
 
-async function getAllUserNeedsService(request){
+async function getAllUserNeedsService(request) {
     try {
         let userNeeds = []
-        if (request.query){
+        if (request.query) {
             const filters = {};
-            const { title, quantity, userId, state } = request.query
+            const { title, quantity, userId, state, search, page, limit } = request.query
+            const skip = (page - 1) * limit;
             filters.title = title
             filters.state = state
             if (quantity) {
                 const quantityInt = parseInt(quantity, 10)
                 if (isNaN(quantityInt)) {
-                    throw new Error('O parâmetro quantity deve ser um número inteiro.' )
+                    throw new Error('O parâmetro quantity deve ser um número inteiro.')
                 }
                 filters.quantity = quantityInt
             }
             if (userId) {
                 const userIdInt = parseInt(userId, 10)
                 if (isNaN(userIdInt)) {
-                    throw new Error('O parâmetro quantity deve ser um número inteiro.' )
+                    throw new Error('O parâmetro quantity deve ser um número inteiro.')
                 }
                 filters.userId = userIdInt
             }
-            userNeeds = await prisma.userNeeds.findMany({
-                where: filters,
-            })
-        } else { 
+
+            // Inicializar os critérios de busca com os filtros recebidos
+            const where = { ...filters };
+
+            // Adicionar a pesquisa pelo termo, se fornecido
+            if (search) {
+                where.OR = [
+                    { title: { contains: search} },
+                    { description: { contains: search} },
+                ];
+            }
+
+            if(page && limit){
+                userNeeds = await prisma.userNeeds.findMany({
+                    where,
+                    skip: Number(skip),
+                    take: Number(limit),
+                })
+            } else {
+                userNeeds = await prisma.userNeeds.findMany({
+                    where,
+                })
+            }
+        } else {
             userNeeds = await prisma.userNeeds.findMany()
-        } 
+        }
         return userNeeds
     } catch (error) {
         throw new Error(`Failed to find user: ${error.message}`);
     }
 }
 
-async function createUserNeedsService(requestBody){
+async function createUserNeedsService(requestBody) {
     try {
         await prisma.UserNeeds.create({
             data: {
@@ -51,7 +72,7 @@ async function createUserNeedsService(requestBody){
             }
         })
         const user = await findUserByIdService(requestBody.userId)
-        await sendEmailUserNeeds (user.email, user.name, requestBody)
+        await sendEmailUserNeeds(user.email, user.name, requestBody)
         return requestBody
     } catch (error) {
         throw new Error(`Failed to create userNeeds: ${error.message}`);
@@ -63,10 +84,10 @@ async function createUserNeedsService(requestBody){
             partial */
 }
 
-async function updateUserNeedsService(request){
+async function updateUserNeedsService(request) {
     try {
         await prisma.userNeeds.update({
-            where : {
+            where: {
                 id: Number(request.params.id)
             },
             data: {
@@ -84,10 +105,10 @@ async function updateUserNeedsService(request){
     }
 }
 
-async function deleteUserNeedsService(requestParams){
+async function deleteUserNeedsService(requestParams) {
     try {
         await prisma.userNeeds.delete({
-            where : {
+            where: {
                 id: Number(requestParams.id)
             }
         })
@@ -97,13 +118,13 @@ async function deleteUserNeedsService(requestParams){
     }
 }
 
-async function findUserNeedsByIdService(id){
-    try{
+async function findUserNeedsByIdService(id) {
+    try {
         const user = await prisma.userNeeds.findUnique({
-            where: { id: id}
-        })  
+            where: { id: id }
+        })
         return user
-    } catch (error){
+    } catch (error) {
         throw new Error(`Failed to find user needs by id: ${error.message}`);
     }
 }
