@@ -108,7 +108,7 @@ async function updateUserNeedsService(request) {
         })
         return
     } catch (error) {
-        throw new Error(`Failed to update user: ${error.message}`);
+        throw new Error(`Failed to update UserNeeds: ${error.message}`);
     }
 }
 

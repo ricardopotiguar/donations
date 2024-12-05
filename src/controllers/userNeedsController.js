@@ -25,7 +25,7 @@ async function updateUserNeedsController(request, response){
         await updateUserNeedsService(request)
         return response.status(200).send(request.body)
     } catch (error) {
-        return response.status(500).json({ message: 'An error occurred while updating the user.', datail: error.message });
+        return response.status(500).json({ message: 'An error occurred while updating the UserNeeds.', datail: error.message });
     }
 
 }
