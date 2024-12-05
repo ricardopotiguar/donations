@@ -9,10 +9,11 @@ async function getAllUserNeedsService(request) {
         let userNeeds = []
         if (request.query) {
             const filters = {};
-            const { title, quantity, userId, state, search, page, limit } = request.query
+            const { title, quantity, userId, state, type, search, page, limit } = request.query
             const skip = (page - 1) * limit;
             filters.title = title
             filters.state = state
+            filters.type = type
             if (quantity) {
                 const quantityInt = parseInt(quantity, 10)
                 if (isNaN(quantityInt)) {
@@ -68,7 +69,9 @@ async function createUserNeedsService(requestBody) {
                 description: requestBody.description,
                 quantity: Number(requestBody.quantity),
                 state: 'pending',
-                updatedAt: new Date()
+                updatedAt: new Date(),
+                type: requestBody.type
+
             }
         })
         const user = await findUserByIdService(requestBody.userId)
@@ -96,7 +99,8 @@ async function updateUserNeedsService(request) {
                 description: request.body.description,
                 quantity: Number(request.body.quantity),
                 state: request.body.state,
-                updatedAt: new Date()
+                updatedAt: new Date(),
+                type: request.body.type
             }
         })
         return

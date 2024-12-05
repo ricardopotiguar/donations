@@ -38,6 +38,7 @@ model UserNeeds {
   donations   Donation[]   // Relacionamento com Donation (doações recebidas)
   createdAt   DateTime     @default(now()) // Data de criação da doação
   updatedAt   DateTime
+  type        String
 
   @@index([userId]) // Índice no campo userId para melhorar o desempenho
 }
