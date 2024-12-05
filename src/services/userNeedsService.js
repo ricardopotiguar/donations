@@ -13,7 +13,12 @@ async function getAllUserNeedsService(request) {
             const skip = (page - 1) * limit;
             filters.title = title
             filters.state = state
-            filters.type = type
+            console.log('type ', type)
+            if (type){
+                filters.type = type
+                console.log('atribuiu type ', type)
+            }            
+
             if (quantity) {
                 const quantityInt = parseInt(quantity, 10)
                 if (isNaN(quantityInt)) {
