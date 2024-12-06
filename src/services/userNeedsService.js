@@ -4,32 +4,35 @@ const prisma = new PrismaClient()
 import { sendEmailUserNeeds } from "./emailService.js"
 import { findUserByIdService } from "./userService.js"
 
+
 async function getAllUserNeedsService(request) {
     try {
-        let userNeeds = []
+        let userNeeds = [];
+        let totalItems = 0;
+
         if (request.query) {
             const filters = {};
-            const { title, quantity, userId, state, type, search, page, limit } = request.query
+            const { title, quantity, userId, state, type, search, page, limit } = request.query;
             const skip = (page - 1) * limit;
-            filters.title = title
-            filters.state = state
-            if (type){
-                filters.type = type
-            }            
+
+            if (title) filters.title = title;
+            if (state) filters.state = state;
+            if (type) filters.type = type;
 
             if (quantity) {
-                const quantityInt = parseInt(quantity, 10)
+                const quantityInt = parseInt(quantity, 10);
                 if (isNaN(quantityInt)) {
-                    throw new Error('O parâmetro quantity deve ser um número inteiro.')
+                    throw new Error('O parâmetro quantity deve ser um número inteiro.');
                 }
-                filters.quantity = quantityInt
+                filters.quantity = quantityInt;
             }
+
             if (userId) {
-                const userIdInt = parseInt(userId, 10)
+                const userIdInt = parseInt(userId, 10);
                 if (isNaN(userIdInt)) {
-                    throw new Error('O parâmetro quantity deve ser um número inteiro.')
+                    throw new Error('O parâmetro userId deve ser um número inteiro.');
                 }
-                filters.userId = userIdInt
+                filters.userId = userIdInt;
             }
 
             // Inicializar os critérios de busca com os filtros recebidos
@@ -38,28 +41,33 @@ async function getAllUserNeedsService(request) {
             // Adicionar a pesquisa pelo termo, se fornecido
             if (search) {
                 where.OR = [
-                    { title: { contains: search} },
-                    { description: { contains: search} },
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { description: { contains: search, mode: 'insensitive' } },
                 ];
             }
 
-            if(page && limit){
+            // Contar o número total de itens com base nos filtros
+            totalItems = await prisma.userNeeds.count({ where });
+
+            // Buscar os itens paginados
+            if (page && limit) {
                 userNeeds = await prisma.userNeeds.findMany({
                     where,
                     skip: Number(skip),
                     take: Number(limit),
-                })
+                });
             } else {
-                userNeeds = await prisma.userNeeds.findMany({
-                    where,
-                })
+                userNeeds = await prisma.userNeeds.findMany({ where });
             }
         } else {
-            userNeeds = await prisma.userNeeds.findMany()
+            // Sem filtros, contar e buscar todos os itens
+            totalItems = await prisma.userNeeds.count();
+            userNeeds = await prisma.userNeeds.findMany();
         }
-        return userNeeds
+
+        return { data: userNeeds, totalItems };
     } catch (error) {
-        throw new Error(`Failed to find user: ${error.message}`);
+        throw new Error(`Failed to find user needs: ${error.message}`);
     }
 }
 
