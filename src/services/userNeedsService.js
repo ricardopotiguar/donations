@@ -120,6 +120,23 @@ async function updateUserNeedsService(request) {
     }
 }
 
+async function updateUserNeedsStateService(id, newState) {
+    try {
+        await prisma.userNeeds.update({
+            where: {
+                id: Number(id),
+            },
+            data: {
+                state: newState,
+                updatedAt: new Date(), // Atualiza o timestamp
+            },
+        });
+        return { success: true, message: 'State updated successfully' };
+    } catch (error) {
+        throw new Error(`Failed to update UserNeeds state: ${error.message}`);
+    }
+}
+
 async function deleteUserNeedsService(requestParams) {
     try {
         await prisma.userNeeds.delete({
@@ -144,5 +161,5 @@ async function findUserNeedsByIdService(id) {
     }
 }
 
-export { createUserNeedsService, getAllUserNeedsService, updateUserNeedsService, deleteUserNeedsService, findUserNeedsByIdService }
+export { createUserNeedsService, getAllUserNeedsService, updateUserNeedsService, deleteUserNeedsService, findUserNeedsByIdService, updateUserNeedsStateService }
 
