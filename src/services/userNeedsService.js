@@ -131,9 +131,9 @@ async function updateUserNeedsStateService(id, newState) {
                 updatedAt: new Date(), // Atualiza o timestamp
             },
         });
-        return { success: true, message: 'State updated successfully' };
+        return { success: true, message: 'State updated successfully' }
     } catch (error) {
-        throw new Error(`Failed to update UserNeeds state: ${error.message}`);
+        throw new Error(`Failed to update UserNeeds state: ${error.message}`)
     }
 }
 

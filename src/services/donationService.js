@@ -67,8 +67,7 @@ async function createDonationService(request){
         const donorUser = await findUserByIdService(request.body.donorId)
         const UserNeeds = await findUserNeedsByIdService(request.body.userNeedsId)
         const needUser = await findUserByIdService(UserNeeds.userId)
-        await updateUserNeedsStateService(UserNeeds.userId, 'completed' )
-        console.log('realizei update da UserNeed trocando state')
+        await updateUserNeedsStateService(request.body.userNeedsId, 'completed' )
         await sendEmailCreateDonation (needUser, donorUser, UserNeeds, request.body.quantity)
         return request 
     } catch (error) {
@@ -79,7 +78,6 @@ async function createDonationService(request){
             scheduled
             completed
      */
-
 }
 
 
