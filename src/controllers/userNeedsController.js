@@ -14,7 +14,7 @@ async function getAllUserNeedsController(request, response){
 async function createUserNeedsController(request, response){
     try {
         const { title, description, userId, quantity, type } = request.body;
-        const imagePath = request.file ? `/uploads/userNeedsImages/${request.file.filename}` : null;
+        const imagePath = request.file ? `${process.env.BASE_URL}/uploads/userNeedsImages/${request.file.filename}` : null;
     
         // Envia os dados ao serviço
         await createUserNeedsService({
