@@ -75,14 +75,14 @@ async function createUserNeedsService(requestBody) {
     try {
         await prisma.UserNeeds.create({
             data: {
-                userId: Number(requestBody.userId),
+                userId: requestBody.userId,
                 title: requestBody.title,
                 description: requestBody.description,
-                quantity: Number(requestBody.quantity),
+                quantity: requestBody.quantity,
                 state: 'pending',
                 updatedAt: new Date(),
-                type: requestBody.type
-
+                type: requestBody.type,
+                imageUrl: requestBody.imageUrl, // Salva a URL da imagem no banco
             }
         })
         const user = await findUserByIdService(requestBody.userId)
