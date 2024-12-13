@@ -1,0 +1,58 @@
+{
+    "userId": "2",
+    "title": "Sapato Social - Masculino",
+    "description": "Esta é uma necessidade fictícia de exemplo. Preciso de um sapato social para entrevistas de emprego.",
+    "quantity": "1",
+    "type": "produto"
+}
+
+{
+    "userId": "2",
+    "title": "Farinha de Trigo - Padaria",
+    "description": "Esta é uma necessidade fictícia de exemplo. Precisamos de farinha de trigo, para preparos da padaria do Núcleo.",
+    "quantity": "50",
+    "type": "produto"
+}
+
+{
+    "userId": "2",
+    "title": "Balança Digital - Padaria",
+    "description": "Esta é uma necessidade fictícia de exemplo. Precisamos de balanças digitais, para preparos da padaria do Núcleo.",
+    "quantity": "3",
+    "type": "produto"
+}
+
+{
+    "userId": "2",
+    "title": "Corte de Cabelos - Masculino",
+    "description": "Esta é uma necessidade fictícia de exemplo. Precisamos de serviço de corte de cabelos masculinos. Sessão de pelo menos 10 cortes.",
+    "quantity": "10",
+    "type": "serviço"
+}
+
+{
+    "userId": "2",
+    "title": "Corte de Cabelos - Feminino",
+    "description": "Esta é uma necessidade fictícia de exemplo. Precisamos de serviço de corte de cabelos feminino. Sessão de pelo menos 10 cortes.",
+    "quantity": "10",
+    "type": "serviço"
+}
+
+{
+    "userId": "2",
+    "title": "Processador de alimentos - Padaria",
+    "description": "Esta é uma necessidade fictícia de exemplo. Precisamos de um processador de alimentos, para recheios, coberturas e outros preparos",
+    "quantity": "1",
+    "type": "serviço"
+}
+
+{
+    "userId": "2",
+    "title": "Sessões de Terapia",
+    "description": "Esta é uma necessidade fictícia de exemplo. Precisamos de serviço de terapia, pelo menos de 20 sessões.",
+    "quantity": "20",
+    "type": "serviço"
+}
+
+
+
