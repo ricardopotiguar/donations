@@ -39,6 +39,7 @@ model UserNeeds {
   createdAt   DateTime     @default(now()) // Data de criação da doação
   updatedAt   DateTime
   type        String
+  imageUrl    String
 
   @@index([userId]) // Índice no campo userId para melhorar o desempenho
 }

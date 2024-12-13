@@ -13,7 +13,21 @@ async function getAllUserNeedsController(request, response){
 
 async function createUserNeedsController(request, response){
     try {
-        await createUserNeedsService(request.body)
+        const { title, description, userId, quantity, type } = request.body;
+        const imagePath = request.file ? `${process.env.BASE_URL}/uploads/userNeedsImages/${request.file.filename}` : null;
+    
+        // Envia os dados ao serviço
+        await createUserNeedsService({
+          userId: Number(userId),
+          title,
+          description,
+          quantity: Number(quantity),
+          type,
+          imageUrl: imagePath, // Adiciona o caminho da imagem
+        });
+
+
+/*         await createUserNeedsService(request.body) */
         return response.status(201).send(request.body)
     } catch (error) {
         return response.status(500).json({ message: 'An error occurred while creating the userNeeds.', datail: error.message });

@@ -20,6 +20,13 @@ npm install bcrypt jsonwebtoken express-validator
 ```
 
 
+ ## Executando comando para instalação do multer, biblioteca para utilização de imagens em formData (fazer 1 vez)   ##
+ ```bash
+npm install multer
+```
+
+
+
  ## Ativando o ambiente local ##
 
  ### Verificar se o banco de dados (Mysql) está Ativando ###

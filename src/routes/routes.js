@@ -9,12 +9,24 @@ import { loginController } from '../controllers/loginController.js'
 
 import { body } from 'express-validator'
 
+import {uploadFile} from '../middlewares/uploadFile.js' // Importar configuração do multer
+/* import multer from 'multer'; */
+
+
+
 router.post('/api/v1/usuarios', userValidation, createUserController) 
 router.get('/api/v1/usuarios', getAllUserController)
 router.put('/api/v1/usuarios/:id', updateUserController)
 router.delete('/api/v1/usuarios/:id', deleteUserController)
 
-router.post('/api/v1/necessidades', createUserNeedsController) 
+//uploadFile.single("image")
+
+/* // Configuração do multer
+const upload = multer({
+  dest: 'uploads/userNeedsImages', // Pasta onde as imagens serão salvas
+  limits: { fileSize: 5 * 1024 * 1024 }, // Limite de 5MB
+}); */
+router.post('/api/v1/necessidades', uploadFile.single('image'), createUserNeedsController) 
 router.get('/api/v1/necessidades', getAllUserNeedsController) 
 router.put('/api/v1/necessidades/:id', updateUserNeedsController) 
 router.delete('/api/v1/necessidades/:id', deleteUserNeedsController)
