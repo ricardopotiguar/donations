@@ -73,6 +73,8 @@ async function getAllUserNeedsService(request) {
 
 async function createUserNeedsService(requestBody) {
     try {
+
+        
         await prisma.UserNeeds.create({
             data: {
                 userId: requestBody.userId,
