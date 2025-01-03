@@ -43,7 +43,7 @@
     "title": "Processador de alimentos - Padaria",
     "description": "Esta é uma necessidade fictícia de exemplo. Precisamos de um processador de alimentos, para recheios, coberturas e outros preparos",
     "quantity": "1",
-    "type": "serviço"
+    "type": "produto"
 }
 
 {

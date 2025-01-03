@@ -2,34 +2,15 @@
 
  É uma API RESTful desenvolvida com Node.js, Express e Prisma, projetada para gerenciar um sistema de doação, doares e pessoas ou instituições que possuem necessidade, o objetivo é conectar pessoas que precisam de algo com pessoas disposta a doar algo.
 
-## Executando comando para criação das dependencias mapeadas pelo vite (fazer 1 vez) ##
+## Ao rodar o projeto pela primeira vez, executar o comando abaixo para criação das dependencias ##
 
  ```bash
 npm install
 ```
-## Executando comando para instalação do CORS, para liberar acesso do frontend ao backend (fazer 1 vez) ##
-
- ```bash
-npm install cors
-```
-
-## Executando comando para instalação do bcrypt, jsonwebtoken e express-validator utilizados para processo de autenticação (fazer 1 vez) ##
-
- ```bash
-npm install bcrypt jsonwebtoken express-validator
-```
-
-
- ## Executando comando para instalação do multer, biblioteca para utilização de imagens em formData (fazer 1 vez)   ##
- ```bash
-npm install multer
-```
-
-
 
  ## Ativando o ambiente local ##
 
- ### Verificar se o banco de dados (Mysql) está Ativando ###
+ ### Verificar se o banco de dados (Mysql) está Ativado ###
 
 ```bash
  sudo systemctl status mysql
