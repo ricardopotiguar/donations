@@ -1,3 +1,5 @@
+console.log('Entrou em rotas')
+
 import { Router } from 'express'
 const router = Router()
 
@@ -46,3 +48,4 @@ router.post('/api/v1/login',
   );
 
 export default router
+console.log('Saiu de rotas')

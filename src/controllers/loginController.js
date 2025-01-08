@@ -1,3 +1,5 @@
+console.log('Entrou em loginController')
+
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { validationResult } from 'express-validator'
@@ -46,3 +48,4 @@ async function loginController(request, response) {
 
 
 export { loginController }
+console.log('Saiu de loginController')
